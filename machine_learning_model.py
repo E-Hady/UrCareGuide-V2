@@ -49,5 +49,9 @@ def predict_disease(symptoms):
             input_vector[X.columns.get_loc(symptom)] = 1
     predicted_label = dtc.predict([input_vector])[0]
     predicted_disease = le.inverse_transform([predicted_label])[0]
-    specialty = disease_specialty.get(predicted_disease, "Unknown Specialty")
+    specialty = None
+    for diseases, spec in disease_specialty:
+        if predicted_disease in diseases:
+            specialty = spec
+            break
     return f"{predicted_disease}\nYou may have to visit a {specialty} doctor."
